@@ -1,6 +1,5 @@
 # Toolchain Docker image
-
-Based on the [Trimui toolchain Docker image](https://git.crowdedwood.com/trimui-toolchain/) by neonloop.
+Based on the [union-tg3040-toolchain](https://github.com/shauninman/union-tg3040-toolchain) by shauninman (which is based on the [Trimui toolchain Docker image](https://git.crowdedwood.com/trimui-toolchain/) by neonloop :p) .
 
 ## Installation
 

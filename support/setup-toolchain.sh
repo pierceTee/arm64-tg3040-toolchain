@@ -1,10 +1,13 @@
 #! /bin/sh
+# This is meant to be run within the container.
 
+# If we're already on an aarch64 system, we don't need to do anything.
 TOOLCHAIN_ARCH=`uname -m`
 if [ "$TOOLCHAIN_ARCH" = "aarch64" ]; then
 	exit
 fi
 
+# Otherwise, we need to set up the toolchain.
 SYSROOT_TAR="SDK_usr_tg5040_a133p"
 TOOLCHAIN_NAME="aarch64-linux-gnu"
 TOOLCHAIN_TAR="gcc-arm-8.3-2019.02-x86_64-aarch64-linux-gnu"

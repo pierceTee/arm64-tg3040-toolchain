@@ -1,13 +1,14 @@
-FROM debian:buster-slim
+FROM arm64v8/debian:buster-slim
 ENV DEBIAN_FRONTEND noninteractive
 
 ENV TZ=America/New_York
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN apt-get -y update && apt-get -y install \
+	sudo \
 	bc \
-    build-essential \
-    bzip2 \
+	build-essential \
+	bzip2 \
 	bzr \
 	cmake \
 	cmake-curses-gui \
@@ -27,7 +28,9 @@ RUN apt-get -y update && apt-get -y install \
 	tree \
 	unzip \
 	wget \
-  && rm -rf /var/lib/apt/lists/*
+	gcc-aarch64-linux-gnu \
+	g++-aarch64-linux-gnu \
+	&& rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /root/workspace
 WORKDIR /root

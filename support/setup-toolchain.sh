@@ -1,29 +1,25 @@
 #! /bin/sh
-# This is meant to be run within the container.
 
-# If we're already on an aarch64 system, we don't need to do anything.
+TOOLCHAIN_VERSION=v0.0.2
+TOOLCHAIN_TAR="miyoomini-toolchain.tar.xz"
+
 TOOLCHAIN_ARCH=`uname -m`
 if [ "$TOOLCHAIN_ARCH" = "aarch64" ]; then
-	exit
+	TOOLCHAIN_REPO=miyoomini-toolchain-buildroot-aarch64
+else
+	TOOLCHAIN_REPO=miyoomini-toolchain-buildroot
 fi
 
-# Otherwise, we need to set up the toolchain.
-SYSROOT_TAR="SDK_usr_tg5040_a133p"
-TOOLCHAIN_NAME="aarch64-linux-gnu"
-TOOLCHAIN_TAR="gcc-arm-8.3-2019.02-x86_64-aarch64-linux-gnu"
+TOOLCHAIN_URL="https://github.com/shauninman/$TOOLCHAIN_REPO/releases/download/$TOOLCHAIN_VERSION/$TOOLCHAIN_TAR"
 
-TOOLCHAIN_URL="https://developer.arm.com/-/media/Files/downloads/gnu-a/8.3-2019.02/$TOOLCHAIN_TAR.tar.xz"
-SYSROOT_URL="https://github.com/trimui/toolchain_sdk_smartpro/releases/download/20231018/$SYSROOT_TAR.tgz"
-
-cd ~
-
-wget $TOOLCHAIN_URL
-wget $SYSROOT_URL
-
-tar xf $TOOLCHAIN_TAR.tar.xz -C /opt
-mv /opt/$TOOLCHAIN_TAR /opt/$TOOLCHAIN_NAME
-rm $TOOLCHAIN_TAR.tar.xz
-
-tar xf $SYSROOT_TAR.tgz
-rsync -a --ignore-existing ./usr/ /opt/$TOOLCHAIN_NAME/$TOOLCHAIN_NAME/libc/usr/
-rm -rf ./usr $SYSROOT_TAR.tgz
+if [ -f "./$TOOLCHAIN_TAR" ]; then
+	cp "./$TOOLCHAIN_TAR" /opt
+	cd /opt
+	echo "extracting local toolchain ($TOOLCHAIN_ARCH)"
+else
+	cd /opt
+	wget "$TOOLCHAIN_URL"
+	echo "extracting remote toolchain $TOOLCHAIN_VERSION ($TOOLCHAIN_ARCH)"
+fi
+tar xf "./$TOOLCHAIN_TAR"
+rm -rf "./$TOOLCHAIN_TAR"

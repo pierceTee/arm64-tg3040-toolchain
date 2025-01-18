@@ -1,7 +1,7 @@
 .PHONY: shell
 .PHONY: clean
 	
-TOOLCHAIN_NAME=arm64-tg3040-toolchain
+TOOLCHAIN_NAME=arm64-tg3040-onion-toolchain
 WORKSPACE_DIR := $(shell pwd)/workspace
 
 CONTAINER_NAME=$(shell docker ps -f "ancestor=$(TOOLCHAIN_NAME)" --format "{{.Names}}")
